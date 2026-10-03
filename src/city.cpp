@@ -12,17 +12,17 @@ City::~City() {
 void City::Init() {
     // Villa model
     m_modelVilla = LoadModel("building_villa.obj");
-    if (!IsModelReady(m_modelVilla) || m_modelVilla.meshCount == 0) {
+    if (m_modelVilla.meshCount <= 0 || m_modelVilla.meshes == nullptr) {
         m_modelVilla = LoadModel("assets/building_villa.obj");
     }
-    m_villaLoaded = (IsModelReady(m_modelVilla) && m_modelVilla.meshCount > 0);
+    m_villaLoaded = (m_modelVilla.meshCount > 0 && m_modelVilla.meshes != nullptr);
 
     // Apartment model
     m_modelApt = LoadModel("building_apt.obj");
-    if (!IsModelReady(m_modelApt) || m_modelApt.meshCount == 0) {
+    if (m_modelApt.meshCount <= 0 || m_modelApt.meshes == nullptr) {
         m_modelApt = LoadModel("assets/building_apt.obj");
     }
-    m_aptLoaded = (IsModelReady(m_modelApt) && m_modelApt.meshCount > 0);
+    m_aptLoaded = (m_modelApt.meshCount > 0 && m_modelApt.meshes != nullptr);
 
     m_buildings.clear();
     m_ramps.clear();

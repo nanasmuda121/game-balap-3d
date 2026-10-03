@@ -65,14 +65,14 @@ void Car::Init(Vector3 startPos, float startYaw, const char* modelPath, Color pr
 
         // Try direct name first (standard for Android APK assets root)
         m_model = LoadModel(cleanName);
-        if (IsModelReady(m_model) && m_model.meshCount > 0) {
+        if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
             m_modelLoaded = true;
             TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", cleanName);
         } else {
             // Try with "assets/" (standard for PC/desktop builds)
             const char* withAssets = TextFormat("assets/%s", cleanName);
             m_model = LoadModel(withAssets);
-            if (IsModelReady(m_model) && m_model.meshCount > 0) {
+            if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
                 m_modelLoaded = true;
                 TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", withAssets);
             } else {
