@@ -1,8 +1,10 @@
-# 🏎️ Apex 3D Racing — Player vs Bot (C++ Android Native APK)
+# 🏎️ RaceDrive — Player vs Bot (C++ Android Native APK)
 
-Game balapan mobil 3D **100% C++ Native** (menggunakan OpenGL ES & Raylib). Didesain khusus agar **dapat di-compile secara otomatis menjadi file `.apk` di GitHub Actions tanpa perlu menginstal apa pun di komputer atau HP Anda**!
-
-Model 3D mobil dikonversi langsung dari `/storage/emulated/0/Download/src/mobil.3ma`.
+Game balapan mobil 3D **100% C++ Native** (menggunakan OpenGL ES & Raylib).
+- **Nama Game**: `RaceDrive`
+- **Package Name**: `com.racedrive.nanas`
+- **Model Mobil**: `/storage/emulated/0/Download/src/mobil.3ma`
+- **Logo/Icon**: `/storage/emulated/0/Download/racedrive.png`
 
 ---
 

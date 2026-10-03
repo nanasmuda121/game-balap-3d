@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
     // 1. Initialize Display
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_RESIZABLE);
-    InitWindow(1280, 720, "Apex 3D Racing - Player vs Bot");
+    InitWindow(1280, 720, "RaceDrive - Player vs Bot");
     SetTargetFPS(TARGET_FPS);
 
     // 2. Initialize Game Components

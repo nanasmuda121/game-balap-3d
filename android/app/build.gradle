@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.gamebalap3d.racing'
+    namespace 'com.racedrive.nanas'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.gamebalap3d.racing"
+        applicationId "com.racedrive.nanas"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -40,6 +40,7 @@ android {
     sourceSets {
         main {
             assets.srcDirs = ['src/main/assets']
+            res.srcDirs = ['src/main/res']
         }
     }
 }
