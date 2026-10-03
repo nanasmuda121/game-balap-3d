@@ -31,7 +31,9 @@ Car::Car()
 
 Car::~Car() {
     if (m_modelLoaded) {
-        UnloadModel(m_model);
+        if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
+            UnloadModel(m_model);
+        }
         m_modelLoaded = false;
     }
 }
@@ -52,32 +54,72 @@ void Car::Init(Vector3 startPos, float startYaw, const char* modelPath, Color pr
     m_lastPassedQuadrant = 0;
 
     if (m_modelLoaded) {
-        UnloadModel(m_model);
+        if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
+            UnloadModel(m_model);
+        }
         m_modelLoaded = false;
     }
 
     if (modelPath != nullptr) {
-        // Strip "assets/" prefix if present to support direct Android APK assets root
-        const char* cleanName = modelPath;
-        if (strncmp(cleanName, "assets/", 7) == 0) {
-            cleanName += 7;
-        }
+        // Strip directory prefixes and extensions to get pure base identifier
+        std::string base = modelPath;
+        size_t lastSlash = base.find_last_of("/\\");
+        if (lastSlash != std::string::npos) base = base.substr(lastSlash + 1);
+        size_t lastDot = base.find_last_of('.');
+        if (lastDot != std::string::npos) base = base.substr(0, lastDot);
 
-        // Try direct name first (standard for Android APK assets root)
-        m_model = LoadModel(cleanName);
-        if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
-            m_modelLoaded = true;
-            TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", cleanName);
-        } else {
-            // Try with "assets/" (standard for PC/desktop builds)
-            const char* withAssets = TextFormat("assets/%s", cleanName);
-            m_model = LoadModel(withAssets);
+        // Try GLB first (binary self-contained, no external MTL, highly reliable on Android)
+        // Then fallback to OBJ (which now has valid UVs)
+        std::string candidates[] = {
+            base + ".glb",
+            std::string("assets/") + base + ".glb",
+            base + ".obj",
+            std::string("assets/") + base + ".obj"
+        };
+
+        for (const auto& path : candidates) {
+            m_model = LoadModel(path.c_str());
             if (m_model.meshCount > 0 && m_model.meshes != nullptr) {
                 m_modelLoaded = true;
-                TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", withAssets);
-            } else {
-                TraceLog(LOG_WARNING, "CAR: Failed to load model '%s'", modelPath);
+                TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s' (meshes: %d)", path.c_str(), m_model.meshCount);
+                break;
             }
+        }
+
+        if (m_modelLoaded) {
+            // Guarantee authentic colors for all materials
+            if (isPlayer) {
+                // Authentic 3DMA palette:
+                // 0: Blue roof (#3E49AB), 1: Dark Charcoal body (#484848), 2: Headlights, 3: Rims, 4: Wheels, 5: Taillights
+                Color playerPalette[] = {
+                    Color{ 62, 73, 171, 255 },   // #3E49AB Electric Blue Roof
+                    Color{ 72, 72, 72, 255 },    // #484848 Dark Charcoal Body
+                    Color{ 255, 255, 255, 255 }, // #FFFFFF White Headlights
+                    Color{ 211, 211, 211, 255 }, // #D3D3D3 Silver Rims
+                    Color{ 160, 160, 160, 255 }, // #A0A0A0 Grey Wheels
+                    Color{ 223, 37, 11, 255 }    // #DF250B Red Taillights
+                };
+                for (int m = 0; m < m_model.materialCount; m++) {
+                    Color cur = m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color;
+                    if ((cur.r == 255 && cur.g == 255 && cur.b == 255) || (cur.r == 0 && cur.g == 0 && cur.b == 0)) {
+                        m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = playerPalette[m % 6];
+                    }
+                }
+            } else {
+                for (int m = 0; m < m_model.materialCount; m++) {
+                    Color cur = m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color;
+                    if ((cur.r == 255 && cur.g == 255 && cur.b == 255) || (cur.r == 0 && cur.g == 0 && cur.b == 0)) {
+                        if (m == 0) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = primaryColor;
+                        else if (m == 1) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = Color{ 35, 45, 60, 255 };
+                        else if (m == 2) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = Color{ 25, 25, 25, 255 };
+                        else if (m == 3) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = Color{ 190, 190, 190, 255 };
+                        else if (m == 4) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = WHITE;
+                        else if (m == 5) m_model.materials[m].maps[MATERIAL_MAP_DIFFUSE].color = RED;
+                    }
+                }
+            }
+        } else {
+            TraceLog(LOG_WARNING, "CAR: Failed to load 3D model '%s', using procedural fallback", modelPath);
         }
     }
 }

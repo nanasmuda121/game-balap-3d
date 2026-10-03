@@ -13,15 +13,10 @@ int main(int argc, char *argv[]) {
     InitWindow(1280, 720, "RaceDrive - 3D Racing & Open World");
     SetTargetFPS(TARGET_FPS);
 
-    // 2. Initialize Audio System
+    // 2. Game Systems, Environments & Actors
     AudioSystem audio;
-    audio.Init();
-
-    // 3. Initialize Game Environments & Actors
     Track track;
     City city;
-    city.Init();
-
     Car player;
     Bot bot;
     CameraFollow camera;
@@ -38,13 +33,7 @@ int main(int argc, char *argv[]) {
     Vector3 playerCityStart = Vector3{ 0.0f, 0.0f, 0.0f };
     float cityStartYaw = 0.0f;
 
-    // Load 3D Models (mobil.obj for player, mobil2.obj for bot)
-    player.Init(playerTrackStart, trackStartYaw, "player_car.obj", BLUE, true);
-    bot.Init(botTrackStart, trackStartYaw, "bot_car.obj", RED);
-
-    camera.Reset(player);
-
-    // 4. Game Modes and States
+    // 3. Game Modes and States
     GameMode currentMode = MODE_BALAPAN;
     GameState gameState = STATE_MENU;
 
@@ -53,11 +42,14 @@ int main(int argc, char *argv[]) {
     float totalRaceTime = 0.0f;
     bool playerWon = false;
 
+    bool isGameReady = false;
+    int splashFrames = 0;
+
     auto StartMode = [&](GameMode mode) {
         currentMode = mode;
         if (mode == MODE_BALAPAN) {
             player.Reset(playerTrackStart, trackStartYaw);
-            bot.Init(botTrackStart, trackStartYaw, "bot_car.obj", RED);
+            bot.Reset(botTrackStart, trackStartYaw);
             camera.Reset(player);
             gameState = STATE_COUNTDOWN;
             countdownTimer = 3.5f;
@@ -72,8 +64,30 @@ int main(int argc, char *argv[]) {
         }
     };
 
-    // 5. Main Game Loop
+    // 4. Main Game Loop
     while (!WindowShouldClose()) {
+        // --- Deferred Initialization: Allow Android EGL Context to stabilize on screen ---
+        if (!isGameReady) {
+            BeginDrawing();
+            ClearBackground(Color{ 10, 15, 25, 255 });
+            int sw = GetScreenWidth();
+            int sh = GetScreenHeight();
+            DrawText("RACEDRIVE 3D", sw / 2 - MeasureText("RACEDRIVE 3D", 44) / 2, sh / 2 - 50, 44, GOLD);
+            DrawText("Memuat data game...", sw / 2 - MeasureText("Memuat data game...", 20) / 2, sh / 2 + 15, 20, RAYWHITE);
+            EndDrawing();
+
+            splashFrames++;
+            if (splashFrames >= 2) {
+                // Initialize audio and 3D models with active EGL context
+                audio.Init();
+                city.Init();
+                player.Init(playerTrackStart, trackStartYaw, "player_car", BLUE, true);
+                bot.Init(botTrackStart, trackStartYaw, "bot_car", RED);
+                camera.Reset(player);
+                isGameReady = true;
+            }
+            continue;
+        }
         float dt = GetFrameTime();
         if (dt > 0.05f) dt = 0.05f;
 

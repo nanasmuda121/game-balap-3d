@@ -5,24 +5,44 @@
 City::City() : m_villaLoaded(false), m_aptLoaded(false) {}
 
 City::~City() {
-    if (m_villaLoaded) UnloadModel(m_modelVilla);
-    if (m_aptLoaded) UnloadModel(m_modelApt);
+    if (m_villaLoaded && m_modelVilla.meshCount > 0 && m_modelVilla.meshes != nullptr) {
+        UnloadModel(m_modelVilla);
+        m_villaLoaded = false;
+    }
+    if (m_aptLoaded && m_modelApt.meshCount > 0 && m_modelApt.meshes != nullptr) {
+        UnloadModel(m_modelApt);
+        m_aptLoaded = false;
+    }
 }
 
 void City::Init() {
     // Villa model
-    m_modelVilla = LoadModel("building_villa.obj");
-    if (m_modelVilla.meshCount <= 0 || m_modelVilla.meshes == nullptr) {
-        m_modelVilla = LoadModel("assets/building_villa.obj");
+    std::string villaCandidates[] = {
+        "building_villa.glb", "assets/building_villa.glb",
+        "building_villa.obj", "assets/building_villa.obj"
+    };
+    for (const auto& path : villaCandidates) {
+        m_modelVilla = LoadModel(path.c_str());
+        if (m_modelVilla.meshCount > 0 && m_modelVilla.meshes != nullptr) {
+            m_villaLoaded = true;
+            TraceLog(LOG_INFO, "CITY: Successfully loaded villa model '%s'", path.c_str());
+            break;
+        }
     }
-    m_villaLoaded = (m_modelVilla.meshCount > 0 && m_modelVilla.meshes != nullptr);
 
     // Apartment model
-    m_modelApt = LoadModel("building_apt.obj");
-    if (m_modelApt.meshCount <= 0 || m_modelApt.meshes == nullptr) {
-        m_modelApt = LoadModel("assets/building_apt.obj");
+    std::string aptCandidates[] = {
+        "building_apt.glb", "assets/building_apt.glb",
+        "building_apt.obj", "assets/building_apt.obj"
+    };
+    for (const auto& path : aptCandidates) {
+        m_modelApt = LoadModel(path.c_str());
+        if (m_modelApt.meshCount > 0 && m_modelApt.meshes != nullptr) {
+            m_aptLoaded = true;
+            TraceLog(LOG_INFO, "CITY: Successfully loaded apt model '%s'", path.c_str());
+            break;
+        }
     }
-    m_aptLoaded = (m_modelApt.meshCount > 0 && m_modelApt.meshes != nullptr);
 
     m_buildings.clear();
     m_ramps.clear();

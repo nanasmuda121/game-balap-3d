@@ -8,6 +8,7 @@ public:
     ~Bot();
 
     void Init(Vector3 startPos, float startYaw, const char* modelPath, Color color);
+    void Reset(Vector3 startPos, float startYaw);
     void Update(float dt, const Track& track, Vector3 playerPos);
     void Draw3D();
 

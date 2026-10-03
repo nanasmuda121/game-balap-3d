@@ -11,6 +11,11 @@ void Bot::Init(Vector3 startPos, float startYaw, const char* modelPath, Color co
     m_targetOffset = 0.0f;
 }
 
+void Bot::Reset(Vector3 startPos, float startYaw) {
+    m_car.Reset(startPos, startYaw);
+    m_targetOffset = 0.0f;
+}
+
 void Bot::Update(float dt, const Track& track, Vector3 playerPos) {
     Vector3 botPos = m_car.GetPosition();
     int currentIdx = track.GetClosestIndex(botPos);
