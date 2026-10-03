@@ -87,7 +87,7 @@ void UI::DrawHUD(const Car& player, const Bot& bot, const Track& track, GameStat
 
     // 5. Reset button on top
     DrawRectangleRounded(m_btnReset, 0.3f, 6, Color{ 40, 45, 60, 200 });
-    DrawRectangleRoundedLines(m_btnReset, 0.3f, 6, 2.0f, Color{ 100, 115, 145, 255 });
+    DrawRectangleRoundedLinesEx(m_btnReset, 0.3f, 6, 2.0f, Color{ 100, 115, 145, 255 });
     DrawText("RESET [R]", (int)m_btnReset.x + 20, (int)m_btnReset.y + 11, 16, WHITE);
 }
 
@@ -98,7 +98,7 @@ void UI::DrawSpeedometer(float speedKmh, float nitro, int screenW, int screenH) 
     // Background card
     Rectangle bg = { (float)centerX - 130.0f, (float)centerY - 45.0f, 260.0f, 90.0f };
     DrawRectangleRounded(bg, 0.3f, 6, Color{ 15, 18, 25, 220 });
-    DrawRectangleRoundedLines(bg, 0.3f, 6, 2.0f, Color{ 45, 55, 75, 255 });
+    DrawRectangleRoundedLinesEx(bg, 0.3f, 6, 2.0f, Color{ 45, 55, 75, 255 });
 
     // Digital speed
     char speedText[32];
@@ -120,7 +120,7 @@ void UI::DrawRaceStatus(int lap, int position, float lapTime, float bestLap, int
     Rectangle posBadge = { 20.0f, 20.0f, 85.0f, 85.0f };
     Color badgeColor = (position == 1) ? Color{ 0, 180, 255, 230 } : Color{ 230, 120, 20, 230 };
     DrawRectangleRounded(posBadge, 0.25f, 6, badgeColor);
-    DrawRectangleRoundedLines(posBadge, 0.25f, 6, 2.0f, WHITE);
+    DrawRectangleRoundedLinesEx(posBadge, 0.25f, 6, 2.0f, WHITE);
 
     char posStr[8];
     snprintf(posStr, sizeof(posStr), "%dst", position);
@@ -131,7 +131,7 @@ void UI::DrawRaceStatus(int lap, int position, float lapTime, float bestLap, int
     // Lap Counter Box
     Rectangle lapBox = { 115.0f, 20.0f, 150.0f, 85.0f };
     DrawRectangleRounded(lapBox, 0.2f, 6, Color{ 20, 25, 35, 210 });
-    DrawRectangleRoundedLines(lapBox, 0.2f, 6, 2.0f, Color{ 55, 70, 95, 255 });
+    DrawRectangleRoundedLinesEx(lapBox, 0.2f, 6, 2.0f, Color{ 55, 70, 95, 255 });
 
     char lapStr[32];
     snprintf(lapStr, sizeof(lapStr), "LAP %d / %d", lap, TOTAL_LAPS);
@@ -157,31 +157,31 @@ void UI::DrawTouchControls(int screenW, int screenH, const TouchInputState& inpu
     // Steer Left Button
     Color colLeft = (input.steer < -0.1f) ? Color{ 0, 200, 255, 220 } : Color{ 40, 50, 70, 160 };
     DrawRectangleRounded(m_btnLeft, 0.4f, 6, colLeft);
-    DrawRectangleRoundedLines(m_btnLeft, 0.4f, 6, 2.5f, WHITE);
+    DrawRectangleRoundedLinesEx(m_btnLeft, 0.4f, 6, 2.5f, WHITE);
     DrawText("<", (int)(m_btnLeft.x + m_btnLeft.width * 0.38f), (int)(m_btnLeft.y + m_btnLeft.height * 0.22f), 48, WHITE);
 
     // Steer Right Button
     Color colRight = (input.steer > 0.1f) ? Color{ 0, 200, 255, 220 } : Color{ 40, 50, 70, 160 };
     DrawRectangleRounded(m_btnRight, 0.4f, 6, colRight);
-    DrawRectangleRoundedLines(m_btnRight, 0.4f, 6, 2.5f, WHITE);
+    DrawRectangleRoundedLinesEx(m_btnRight, 0.4f, 6, 2.5f, WHITE);
     DrawText(">", (int)(m_btnRight.x + m_btnRight.width * 0.38f), (int)(m_btnRight.y + m_btnRight.height * 0.22f), 48, WHITE);
 
     // Gas Pedal (Green)
     Color colGas = (input.throttle > 0.1f) ? Color{ 40, 220, 80, 240 } : Color{ 25, 120, 50, 170 };
     DrawRectangleRounded(m_btnGas, 0.3f, 6, colGas);
-    DrawRectangleRoundedLines(m_btnGas, 0.3f, 6, 2.5f, WHITE);
+    DrawRectangleRoundedLinesEx(m_btnGas, 0.3f, 6, 2.5f, WHITE);
     DrawText("GAS", (int)(m_btnGas.x + m_btnGas.width * 0.22f), (int)(m_btnGas.y + m_btnGas.height * 0.35f), 30, WHITE);
 
     // Brake / Reverse Pedal (Red)
     Color colBrake = input.brake ? Color{ 240, 50, 50, 240 } : Color{ 140, 30, 30, 170 };
     DrawRectangleRounded(m_btnBrake, 0.3f, 6, colBrake);
-    DrawRectangleRoundedLines(m_btnBrake, 0.3f, 6, 2.5f, WHITE);
+    DrawRectangleRoundedLinesEx(m_btnBrake, 0.3f, 6, 2.5f, WHITE);
     DrawText("BRAKE", (int)(m_btnBrake.x + m_btnBrake.width * 0.12f), (int)(m_btnBrake.y + m_btnBrake.height * 0.32f), 20, WHITE);
 
     // Nitro Button (Cyan)
     Color colNitro = input.nitro ? Color{ 0, 240, 255, 255 } : Color{ 0, 130, 190, 180 };
     DrawRectangleRounded(m_btnNitro, 0.35f, 6, colNitro);
-    DrawRectangleRoundedLines(m_btnNitro, 0.35f, 6, 2.5f, WHITE);
+    DrawRectangleRoundedLinesEx(m_btnNitro, 0.35f, 6, 2.5f, WHITE);
     DrawText("NITRO", (int)(m_btnNitro.x + m_btnNitro.width * 0.15f), (int)(m_btnNitro.y + m_btnNitro.height * 0.25f), 22, WHITE);
 }
 
@@ -210,7 +210,7 @@ void UI::DrawResults(bool playerWon, float totalTime, float bestLap, bool& outRe
 
     Rectangle card = { (float)screenW * 0.5f - 240.0f, (float)screenH * 0.5f - 180.0f, 480.0f, 360.0f };
     DrawRectangleRounded(card, 0.15f, 6, Color{ 20, 26, 38, 255 });
-    DrawRectangleRoundedLines(card, 0.15f, 6, 3.0f, playerWon ? GOLD : Color{ 100, 120, 150, 255 });
+    DrawRectangleRoundedLinesEx(card, 0.15f, 6, 3.0f, playerWon ? GOLD : Color{ 100, 120, 150, 255 });
 
     if (playerWon) {
         DrawText("VICTORY! 🏆", (int)card.x + 130, (int)card.y + 35, 38, GOLD);
@@ -244,7 +244,7 @@ void UI::DrawResults(bool playerWon, float totalTime, float bestLap, bool& outRe
     }
 
     DrawRectangleRounded(restartBtn, 0.3f, 6, hover ? Color{ 0, 220, 100, 255 } : Color{ 0, 170, 75, 255 });
-    DrawRectangleRoundedLines(restartBtn, 0.3f, 6, 2.0f, WHITE);
+    DrawRectangleRoundedLinesEx(restartBtn, 0.3f, 6, 2.0f, WHITE);
     DrawText("PLAY AGAIN", (int)restartBtn.x + 65, (int)restartBtn.y + 16, 24, WHITE);
 
     if (hover && (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0 || IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))) {
