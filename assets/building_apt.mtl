@@ -1,0 +1,23 @@
+# Materials for building_apt
+
+newmtl mat_walls
+Ka 0.15 0.15 0.15
+Kd 0.82 0.78 0.72
+Ks 0.2 0.2 0.2
+Ns 20.0
+illum 1
+
+newmtl mat_roof
+Ka 0.15 0.05 0.05
+Kd 0.65 0.22 0.18
+Ks 0.3 0.3 0.3
+Ns 30.0
+illum 1
+
+newmtl mat_windows
+Ka 0.1 0.2 0.3
+Kd 0.3 0.6 0.85
+Ks 0.9 0.9 0.9
+Ns 90.0
+illum 2
+

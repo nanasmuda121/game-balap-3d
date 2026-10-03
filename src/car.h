@@ -17,7 +17,7 @@ public:
     ~Car();
 
     void Init(Vector3 startPos, float startYaw, const char* modelPath, Color primaryColor, bool isPlayer);
-    void Update(float dt, float throttle, float steer, bool brake, bool nitro);
+    void Update(float dt, float throttle, float steer, bool brake, bool reverse, bool nitro, float groundHeight = 0.0f);
     void Draw3D();
     void ApplyCollisionImpulse(Vector3 impulse);
     void Reset(Vector3 pos, float yaw);
@@ -34,13 +34,14 @@ public:
     float GetBestLapTime() const { return m_bestLapTime; }
     bool HasFinished() const { return m_finished; }
     bool IsDrifting() const { return m_isDrifting; }
+    bool IsNitroActive() const { return m_isNitroActive; }
     float GetRadius() const { return 1.6f; }
 
     // Lap progress update
     void UpdateLapProgress(float trackProgress, float trackLength);
 
 private:
-    void UpdatePhysics(float dt, float throttle, float steer, bool brake, bool nitro);
+    void UpdatePhysics(float dt, float throttle, float steer, bool brake, bool reverse, bool nitro, float groundHeight);
     void UpdateParticles(float dt);
     void DrawProceduralCar();
 
@@ -51,6 +52,7 @@ private:
     float m_steerAngle;   // Current steering wheel angle
     float m_roll;         // Body roll during turn
     float m_pitch;        // Squat on accelerate / dive on brake
+    float m_velY;         // Vertical velocity for airborne jumps
 
     // Attributes
     float m_maxSpeed;

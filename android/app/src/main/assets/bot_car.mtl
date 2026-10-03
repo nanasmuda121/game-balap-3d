@@ -1,50 +1,45 @@
-# Material file for bot_car
+# Materials for bot_car
 
-newmtl mat_3E49AB
-Ka 0.0933 0.0133 0.0000
-Kd 0.4667 0.0667 0.0000
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
+newmtl mat_body
+Ka 0.184 0.030 0.024
+Kd 0.920 0.150 0.120
+Ks 0.8 0.8 0.8
+Ns 80.0
 illum 2
 
-newmtl mat_484848
-Ka 0.1600 0.0267 0.0133
-Kd 0.8000 0.1333 0.0667
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
+newmtl mat_glass
+Ka 0.05 0.1 0.15
+Kd 0.15 0.3 0.45
+Ks 0.9 0.9 0.9
+Ns 100.0
+d 0.85
 illum 2
 
-newmtl mat_A0A0A0
-Ka 0.1255 0.1255 0.1255
-Kd 0.6275 0.6275 0.6275
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
+newmtl mat_tires
+Ka 0.05 0.05 0.05
+Kd 0.12 0.12 0.12
+Ks 0.1 0.1 0.1
+Ns 10.0
+illum 1
+
+newmtl mat_rims
+Ka 0.2 0.2 0.2
+Kd 0.75 0.75 0.75
+Ks 0.9 0.9 0.9
+Ns 90.0
 illum 2
 
-newmtl mat_D3D3D3
-Ka 0.1655 0.1655 0.1655
-Kd 0.8275 0.8275 0.8275
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
+newmtl mat_headlights
+Ka 0.3 0.3 0.3
+Kd 1.0 1.0 1.0
+Ks 1.0 1.0 1.0
+Ns 120.0
 illum 2
 
-newmtl mat_DF250B
-Ka 0.1749 0.0290 0.0086
-Kd 0.8745 0.1451 0.0431
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
-illum 2
-
-newmtl mat_FFFFFF
-Ka 0.2000 0.2000 0.2000
-Kd 1.0000 1.0000 1.0000
-Ks 0.5 0.5 0.5
-Ns 50.0
-d 1.0
+newmtl mat_taillights
+Ka 0.2 0.02 0.02
+Kd 0.9 0.1 0.1
+Ks 0.8 0.3 0.3
+Ns 60.0
 illum 2
 

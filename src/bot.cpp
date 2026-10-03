@@ -72,7 +72,7 @@ void Bot::Update(float dt, const Track& track, Vector3 playerPos) {
     }
 
     // 5. Update internal car
-    m_car.Update(dt, throttle, steer, brake, nitro);
+    m_car.Update(dt, throttle, steer, brake, false, nitro);
 
     // Update lap status
     float trackProgress = track.GetProgressAlongTrack(botPos);

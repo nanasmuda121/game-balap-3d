@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES
     src/main.cpp
     src/track.cpp
+    src/city.cpp
     src/car.cpp
     src/bot.cpp
+    src/audio.cpp
     src/ui.cpp
 )
 
@@ -17,9 +19,11 @@ set(SOURCES
 set(HEADERS
     src/common.h
     src/track.h
+    src/city.h
     src/car.h
     src/bot.h
     src/camera_follow.h
+    src/audio.h
     src/ui.h
 )
 

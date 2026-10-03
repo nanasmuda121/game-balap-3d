@@ -8,8 +8,10 @@ struct TouchInputState {
     float throttle;
     float steer;
     bool brake;
+    bool reverse;
     bool nitro;
     bool reset;
+    bool menu;
 };
 
 class UI {
@@ -19,9 +21,10 @@ public:
 
     void Init();
     TouchInputState ProcessInput(bool isMobile);
-    void DrawHUD(const Car& player, const Bot& bot, const Track& track, GameState state, float countdownTimer);
+    void DrawMenu(GameMode& outMode, bool& outSelected);
+    void DrawHUD(const Car& player, const Bot* bot, const Track* track, GameMode mode, GameState state, float countdownTimer);
     void DrawCountdown(float countdownTimer);
-    void DrawResults(bool playerWon, float totalTime, float bestLap, bool& outRestart);
+    void DrawResults(bool playerWon, float totalTime, float bestLap, bool& outRestart, bool& outMenu);
 
 private:
     void DrawSpeedometer(float speedKmh, float nitro, int screenW, int screenH);
@@ -33,6 +36,8 @@ private:
     Rectangle m_btnRight;
     Rectangle m_btnGas;
     Rectangle m_btnBrake;
+    Rectangle m_btnReverse;
     Rectangle m_btnNitro;
     Rectangle m_btnReset;
+    Rectangle m_btnMenu;
 };

@@ -20,8 +20,10 @@ FetchContent_MakeAvailable(raylib)
 set(GAME_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/track.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/city.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/car.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/bot.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/audio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/ui.cpp
 )
 
@@ -38,6 +40,7 @@ target_link_libraries(main PRIVATE
     log
     EGL
     GLESv3
+    OpenSLES
     m
 )
 
