@@ -56,9 +56,29 @@ void Car::Init(Vector3 startPos, float startYaw, const char* modelPath, Color pr
         m_modelLoaded = false;
     }
 
-    if (modelPath != nullptr && FileExists(modelPath)) {
-        m_model = LoadModel(modelPath);
-        m_modelLoaded = true;
+    if (modelPath != nullptr) {
+        // Strip "assets/" prefix if present to support direct Android APK assets root
+        const char* cleanName = modelPath;
+        if (strncmp(cleanName, "assets/", 7) == 0) {
+            cleanName += 7;
+        }
+
+        // Try direct name first (standard for Android APK assets root)
+        m_model = LoadModel(cleanName);
+        if (IsModelReady(m_model) && m_model.meshCount > 0) {
+            m_modelLoaded = true;
+            TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", cleanName);
+        } else {
+            // Try with "assets/" (standard for PC/desktop builds)
+            const char* withAssets = TextFormat("assets/%s", cleanName);
+            m_model = LoadModel(withAssets);
+            if (IsModelReady(m_model) && m_model.meshCount > 0) {
+                m_modelLoaded = true;
+                TraceLog(LOG_INFO, "CAR: Successfully loaded model '%s'", withAssets);
+            } else {
+                TraceLog(LOG_WARNING, "CAR: Failed to load model '%s'", modelPath);
+            }
+        }
     }
 }
 

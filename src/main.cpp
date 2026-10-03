@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
     float cityStartYaw = 0.0f;
 
     // Load 3D Models (mobil.obj for player, mobil2.obj for bot)
-    player.Init(playerTrackStart, trackStartYaw, "assets/player_car.obj", BLUE, true);
-    bot.Init(botTrackStart, trackStartYaw, "assets/bot_car.obj", RED);
+    player.Init(playerTrackStart, trackStartYaw, "player_car.obj", BLUE, true);
+    bot.Init(botTrackStart, trackStartYaw, "bot_car.obj", RED);
 
     camera.Reset(player);
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
         currentMode = mode;
         if (mode == MODE_BALAPAN) {
             player.Reset(playerTrackStart, trackStartYaw);
-            bot.Init(botTrackStart, trackStartYaw, "assets/bot_car.obj", RED);
+            bot.Init(botTrackStart, trackStartYaw, "bot_car.obj", RED);
             camera.Reset(player);
             gameState = STATE_COUNTDOWN;
             countdownTimer = 3.5f;

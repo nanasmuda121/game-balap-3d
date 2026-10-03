@@ -1,10 +1,10 @@
-# Materials for bot_car
+# Material file for bot_car
 
 newmtl mat_body
-Ka 0.184 0.030 0.024
-Kd 0.920 0.150 0.120
-Ks 0.8 0.8 0.8
-Ns 80.0
+Ka 0.176 0.024 0.020
+Kd 0.880 0.120 0.100
+Ks 0.6 0.6 0.6
+Ns 60.0
 illum 2
 
 newmtl mat_glass

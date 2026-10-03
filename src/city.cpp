@@ -10,14 +10,19 @@ City::~City() {
 }
 
 void City::Init() {
-    if (FileExists("assets/building_villa.obj")) {
+    // Villa model
+    m_modelVilla = LoadModel("building_villa.obj");
+    if (!IsModelReady(m_modelVilla) || m_modelVilla.meshCount == 0) {
         m_modelVilla = LoadModel("assets/building_villa.obj");
-        m_villaLoaded = true;
     }
-    if (FileExists("assets/building_apt.obj")) {
+    m_villaLoaded = (IsModelReady(m_modelVilla) && m_modelVilla.meshCount > 0);
+
+    // Apartment model
+    m_modelApt = LoadModel("building_apt.obj");
+    if (!IsModelReady(m_modelApt) || m_modelApt.meshCount == 0) {
         m_modelApt = LoadModel("assets/building_apt.obj");
-        m_aptLoaded = true;
     }
+    m_aptLoaded = (IsModelReady(m_modelApt) && m_modelApt.meshCount > 0);
 
     m_buildings.clear();
     m_ramps.clear();
